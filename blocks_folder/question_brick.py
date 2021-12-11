@@ -8,5 +8,3 @@ class QuestionBlock(Block):
                  width: int, height: int, breakable: bool):
         super().__init__(x_position, y_position, image_bank, image_x, image_y, width, height, breakable)
 
-    def __init__(self, h):
-        self.hability = h

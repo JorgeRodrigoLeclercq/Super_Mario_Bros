@@ -78,8 +78,7 @@ class Board:
         # Questions blocks_folder
         self.questions = [QuestionBlock(80, 176, 0, 16, 0, 16, 16, True),
                           QuestionBlock(1152, 176, 0, 16, 0, 16, 16, True),
-                          QuestionBlock(1424, 112, 0, 16, 0, 16, 16, True)
-                          ]
+                          QuestionBlock(1424, 112, 0, 16, 0, 16, 16, True)]
 
         # List with all the blocks
         self.blocks = [self.clouds, self.grass, self.pipes, self.coin_bricks,
