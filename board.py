@@ -139,11 +139,7 @@ class Board:
             self.mario.hit-=1
 
         # States the sprite of mario
-        if self.mario.state == 1:
-            self.mario.small_mario()
-        elif self.mario.state == 2:
-            self.mario.big_mario()
-        #self.mario.choose_sprite()
+        self.mario.choose_sprite()
 
         # Decreases time
         self.game_time -= .07
@@ -244,10 +240,8 @@ class Board:
             for j in range(len(self.enemies[i])):
                 aux = []
                 if not self.enemies[i][j].dead:
-                    for k in range(self.enemies[i][j].x_position,
-                                   self.enemies[i][j].x_position + self.enemies[i][j].width + 1, 1):
-                        for w in range(self.enemies[i][j].y_position,
-                                       self.enemies[i][j].y_position + self.enemies[i][j].height + 1, 1):
+                    for k in range(self.enemies[i][j].x_position, self.enemies[i][j].x_position + self.enemies[i][j].width + 1, 1):
+                        for w in range(self.enemies[i][j].y_position, self.enemies[i][j].y_position + self.enemies[i][j].height + 1, 1):
                             aux.append([k, w])
 
                 if self.mario.next_move_down in aux:
@@ -260,7 +254,7 @@ class Board:
                         self.mario.state = 1
                     elif self.mario.state == 1:
                         self.mario.state = 0
-                    aux.clear()
+                aux.clear()
         '''self.collider = 0'''
         '''if pyxel.btn(pyxel.KEY_RIGHT):
             for i in range(len(self.blocks)):
@@ -297,20 +291,21 @@ class Board:
         # Draw enemies
         for i in range(len(self.enemies)):
             for j in range(len(self.enemies[i])):
-                self.enemies[i][j].draw_enemy()
+                if not self.enemies[i][j].dead:
+                    self.enemies[i][j].draw_enemy()
 
-            # Draw Objects
-            for i in range(len(self.special_objects)):
-                for j in range(len(self.special_objects[i])):
+        # Draw Objects
+        for i in range(len(self.special_objects)):
+            for j in range(len(self.special_objects[i])):
                     self.special_objects[i][j].draw_special_object()
 
-            # Draw Mario
-            if self.mario.state == 1 or self.mario.state == 0:
-                pyxel.blt(self.mario.x, self.mario.y - 17, 0, self.mario.animation_x, self.mario.animation_y,
-                          self.mario.sprite_direction, 16, colkey=12)
-            if self.mario.state == 2:
-                pyxel.blt(self.mario.x, self.mario.y - 32, 0, self.mario.animation_x, self.mario.animation_y,
-                          self.mario.sprite_direction, 32, colkey=12)
+        # Draw Mario
+        if self.mario.state == 1 or self.mario.state == 0:
+            pyxel.blt(self.mario.x, self.mario.y - 17, 0, self.mario.animation_x, self.mario.animation_y,
+                      self.mario.sprite_direction, 16, colkey=12)
+        if self.mario.state == 2:
+            pyxel.blt(self.mario.x, self.mario.y - 32, 0, self.mario.animation_x, self.mario.animation_y,
+                      self.mario.sprite_direction, 32, colkey=12)
 
         """ Draw Mario
         pyxel.blt(self.mario.x, self.mario.y - 17, 0, self.mario.animation_x, self.mario.animation_y,
