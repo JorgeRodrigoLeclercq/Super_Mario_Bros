@@ -5,7 +5,7 @@ class Block:
     # This class contains the attributes and the functions for the blocks
 
     def __init__(self, x_position: int, y_position: int, image_bank: int, image_x: int, image_y: int,
-                 width: int, height: int, broken: bool):
+                 width: int, height: int, broken: bool, used: bool):
 
         # Positions
         self.x_position = x_position
@@ -24,6 +24,7 @@ class Block:
 
         # Characteristics
         self.broken = broken
+        self.used = used
 
     # Draws the blocks
     def draw_block(self):

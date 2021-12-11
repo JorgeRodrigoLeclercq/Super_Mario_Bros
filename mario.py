@@ -18,11 +18,11 @@ class Mario:
         self.jump_height = 0
 
         # Punctuation
-        self.score = 20
+        self.score = 0
         self.coins = 0
 
         # State (0 = Dead, 1 = Small, 2 = Big)
-        self.state = 2
+        self.state = 1
 
         # Mario has been hit by an enemy
         self.hit = 0

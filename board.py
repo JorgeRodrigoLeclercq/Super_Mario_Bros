@@ -1,5 +1,4 @@
-import pyxel
-import random
+import pyxel, random, time
 
 from blocks_folder.breakable_brick import BreakableBrick
 from blocks_folder.clouds import Clouds
@@ -36,7 +35,7 @@ class Board:
 #######################################################################################################################
         # BLOCKS
         # Floor
-        self.floor = [Floor(i, 240, 0, 32, 104, 16, 16, False) for i in range(0, self.floor_length, 16)]
+        self.floor = [Floor(i, 240, 0, 32, 104, 16, 16, False, True) for i in range(0, self.floor_length, 16)]
 
         # Clouds and grass
         self.clouds, self.grass = [], []
@@ -47,42 +46,42 @@ class Board:
             x = random.randint(0, 256)
             x2 = random.randint(0, 256)
             y = random.randint(80, 100)
-            self.clouds.append(Clouds(x + aux, y, 0, 16, 64, 48, 24, False))
-            self.grass.append(Grass(x2 + aux, 224, 0, 16, 88, 48, 16, False))
+            self.clouds.append(Clouds(x + aux, y, 0, 16, 64, 48, 24, False, True))
+            self.grass.append(Grass(x2 + aux, 224, 0, 16, 88, 48, 16, False, True))
             aux += 256
 
         # Pipes
-        self.pipes = [Pipes(288, 208, 0, 32, 0, 32, 32, False),
-                      Pipes(528, 208, 0, 32, 0, 32, 32, False),
-                      Pipes(848, 208, 0, 32, 0, 32, 32, False),
-                      Pipes(200, 176, 0, 0, 120, 32, 64, False),
-                      Pipes(1408, 208, 0, 32, 0, 32, 32, False)
+        self.pipes = [Pipes(288, 208, 0, 32, 0, 32, 32, False, True),
+                      Pipes(528, 208, 0, 32, 0, 32, 32, False, True),
+                      Pipes(848, 208, 0, 32, 0, 32, 32, False, True),
+                      Pipes(200, 176, 0, 0, 120, 32, 64, False, True),
+                      Pipes(1408, 208, 0, 32, 0, 32, 32, False, True)
                       ]
 
         # Bricks with coins
-        self.coin_bricks = [CoinBrick(64, 176, 0, 0, 16, 16, 16, False),
-                            CoinBrick(96, 176, 0, 0, 16, 16, 16, False),
-                            CoinBrick(608, 176, 0, 0, 16, 16, 16, False),
-                            CoinBrick(1728, 176, 0, 0, 16, 16, 16, False),
-                            CoinBrick(304, 176, 0, 0, 16, 16, 16, False),
-                            CoinBrick(1744, 112, 0, 0, 16, 16, 16, False),
-                            CoinBrick(1744, 160, 0, 0, 16, 16, 16, False)
+        self.coin_bricks = [CoinBrick(64, 176, 0, 0, 16, 16, 16, False, False),
+                            CoinBrick(96, 176, 0, 0, 16, 16, 16, False, False),
+                            CoinBrick(608, 176, 0, 0, 16, 16, 16, False, False),
+                            CoinBrick(1728, 176, 0, 0, 16, 16, 16, False, False),
+                            CoinBrick(304, 176, 0, 0, 16, 16, 16, False, False),
+                            CoinBrick(1744, 112, 0, 0, 16, 16, 16, False, False),
+                            CoinBrick(1744, 160, 0, 0, 16, 16, 16, False, False)
                             ]
 
         # Breakable bricks
-        self.breakable_bricks = [BreakableBrick(576, 176, 0, 0, 16, 16, 16, False),
-                                 BreakableBrick(1408, 160, 0, 0, 16, 16, 16, False),
-                                 BreakableBrick(1728, 112, 0, 0, 16, 16, 16, False),
-                                 BreakableBrick(320, 176, 0, 0, 16, 16, 16, False),
-                                 BreakableBrick(288, 141, 0, 0, 16, 16, 16, False)
+        self.breakable_bricks = [BreakableBrick(576, 176, 0, 0, 16, 16, 16, False, False),
+                                 BreakableBrick(1408, 160, 0, 0, 16, 16, 16, False, False),
+                                 BreakableBrick(1728, 112, 0, 0, 16, 16, 16, False, False),
+                                 BreakableBrick(320, 176, 0, 0, 16, 16, 16, False, False),
+                                 BreakableBrick(288, 141, 0, 0, 16, 16, 16, False, False)
                                  ]
 
         # Questions blocks_folder
-        self.questions = [QuestionBlock(80, 176, 0, 16, 0, 16, 16, False),
-                          QuestionBlock(1152, 176, 0, 16, 0, 16, 16, False),
-                          QuestionBlock(1424, 112, 0, 16, 0, 16, 16, False)]
+        self.questions = [QuestionBlock(80, 176, 0, 16, 0, 16, 16, False, False),
+                          QuestionBlock(1152, 176, 0, 16, 0, 16, 16, False, False),
+                          QuestionBlock(1424, 112, 0, 16, 0, 16, 16, False, False)]
 
-        self.flag = [Flag(2000, 88, 0, 224, 104, 32, 160, False)]
+        self.flag = [Flag(2000, 88, 0, 224, 104, 32, 160, False, True)]
 
         # List with all the blocks
         self.blocks = [self.clouds, self.grass, self.pipes, self.coin_bricks,
@@ -113,11 +112,11 @@ class Board:
 
 #######################################################################################################################
         # SPECIAL OBJECTS
-        self.mushroom = [Mushroom(80, 157, 0, 0, 32, 16, 16, True),
+        self.mushroom = [Mushroom(80, 157, 0, 0, 32, 16, 16, False),
                          Mushroom(1152, 157, 0, 0, 32, 16, 16, False),
                          Mushroom(1424, 93, 0, 0, 32, 16, 16, False)]
 
-        self.coin = [Coin(64, 160, 0, 48, 120, 16, 16, True),
+        self.coin = [Coin(64, 160, 0, 48, 120, 16, 16, False),
                      Coin(96, 160, 0, 48, 120, 16, 16, False),
                      Coin(608, 160, 0, 48, 120, 16, 16, False),
                      Coin(1728, 160, 0, 48, 120, 16, 16, False),
@@ -207,11 +206,24 @@ class Board:
             # Breaks the blocks that has some function
             for i in range(3,len(self.blocks)-2):
                 for j in range(len(self.blocks[i])):
-                    if self.blocks[i][j].x_position <= self.mario.next_move_up[0] <= (self.blocks[i][j].x_position + self.blocks[i][j].width) \
+                    if not self.blocks[i][j].used and self.blocks[i][j].x_position <= self.mario.next_move_up[0] <= (self.blocks[i][j].x_position + self.blocks[i][j].width) \
                             and self.blocks[i][j].y_position <= self.mario.next_move_up[1] <= (self.blocks[i][j].y_position + self.blocks[i][j].height+2):
+
+                        # Now the block is used
+                        self.blocks[i][j].used = True
+
+                        # Finds and prints the object inside the block
+                        initial_time = time.time()
+                        for k in range(len(self.special_objects)):
+                            for w in range(len(self.special_objects[k])):
+                                if self.special_objects[k][w].x_position == self.blocks[i][j].x_position:
+                                    self.special_objects[k][w].can_use = True
+                                    if time.time() - initial_time >= 3:
+                                        self.special_objects[i][j].can_use = False
+
                         if i == 3:
                             self.blocks[i][j].change_to_clear_block()
-                            self.mario.score += 100
+                            self.mario.score += 50
                             self.mario.coins += 1
                         elif i == 4:
                             self.blocks[i][j].broken = True
@@ -247,7 +259,7 @@ class Board:
 
                 if self.mario.next_move_down in aux:
                     self.enemies[i][j].dead = True
-                    self.mario.increase_score(100)
+                    self.mario.increase_score(150)
 
                 elif ([self.mario.x + 1, self.mario.y] in aux or [self.mario.x - 1, self.mario.y] in aux) and self.mario.hit == 0:
                     self.mario.hit = 150
