@@ -60,27 +60,27 @@ class Board:
                       ]
 
         # Bricks with coins
-        self.coin_bricks = [CoinBrick(64, 176, 0, 0, 16, 16, 16, True),
-                            CoinBrick(96, 176, 0, 0, 16, 16, 16, True),
-                            CoinBrick(608, 176, 0, 0, 16, 16, 16, True),
-                            CoinBrick(1728, 176, 0, 0, 16, 16, 16, True),
-                            CoinBrick(304, 176, 0, 0, 16, 16, 16, True),
-                            CoinBrick(1744, 112, 0, 0, 16, 16, 16, True),
-                            CoinBrick(1744, 160, 0, 0, 16, 16, 16, True)
+        self.coin_bricks = [CoinBrick(64, 176, 0, 0, 16, 16, 16, False),
+                            CoinBrick(96, 176, 0, 0, 16, 16, 16, False),
+                            CoinBrick(608, 176, 0, 0, 16, 16, 16, False),
+                            CoinBrick(1728, 176, 0, 0, 16, 16, 16, False),
+                            CoinBrick(304, 176, 0, 0, 16, 16, 16, False),
+                            CoinBrick(1744, 112, 0, 0, 16, 16, 16, False),
+                            CoinBrick(1744, 160, 0, 0, 16, 16, 16, False)
                             ]
 
         # Breakable bricks
-        self.breakable_bricks = [BreakableBrick(576, 176, 0, 0, 16, 16, 16, True),
-                                 BreakableBrick(1408, 160, 0, 0, 16, 16, 16, True),
-                                 BreakableBrick(1728, 112, 0, 0, 16, 16, 16, True),
-                                 BreakableBrick(320, 176, 0, 0, 16, 16, 16, True),
-                                 BreakableBrick(288, 141, 0, 0, 16, 16, 16, True)
+        self.breakable_bricks = [BreakableBrick(576, 176, 0, 0, 16, 16, 16, False),
+                                 BreakableBrick(1408, 160, 0, 0, 16, 16, 16, False),
+                                 BreakableBrick(1728, 112, 0, 0, 16, 16, 16, False),
+                                 BreakableBrick(320, 176, 0, 0, 16, 16, 16, False),
+                                 BreakableBrick(288, 141, 0, 0, 16, 16, 16, False)
                                  ]
 
         # Questions blocks_folder
-        self.questions = [QuestionBlock(80, 176, 0, 16, 0, 16, 16, True),
-                          QuestionBlock(1152, 176, 0, 16, 0, 16, 16, True),
-                          QuestionBlock(1424, 112, 0, 16, 0, 16, 16, True)]
+        self.questions = [QuestionBlock(80, 176, 0, 16, 0, 16, 16, False),
+                          QuestionBlock(1152, 176, 0, 16, 0, 16, 16, False),
+                          QuestionBlock(1424, 112, 0, 16, 0, 16, 16, False)]
 
         self.flag = [Flag(2000, 88, 0, 224, 104, 32, 160, False)]
 
@@ -205,19 +205,20 @@ class Board:
         if pyxel.btn(pyxel.KEY_UP) and self.mario.next_move_up not in self.blocks_x_y and self.mario.jump_height <= 70:
             self.mario.jump()
             # Breaks the blocks that has some function
-            aux2 = []
-            for i in range(3, len(self.blocks) - 1, 1):
+            for i in range(3,len(self.blocks)-2):
                 for j in range(len(self.blocks[i])):
-                    aux = []
-                    for k in range(self.blocks[i][j].x_position, self.blocks[i][j].x_position + self.blocks[i][j].width,
-                                   1):
-                        for w in range(self.blocks[i][j].y_position,
-                                       self.blocks[i][j].y_position + self.blocks[i][j].height, 1):
-                            aux.append([k, w])
-                    aux2.append(aux)
-                    if self.mario.next_move_up in aux[3]:
-                        del (self.coin_bricks[3])
-                        self.mario.increase_coins()
+                    if self.blocks[i][j].x_position <= self.mario.next_move_up[0] <= (self.blocks[i][j].x_position + self.blocks[i][j].width) \
+                            and self.blocks[i][j].y_position <= self.mario.next_move_up[1] <= (self.blocks[i][j].y_position + self.blocks[i][j].height+2):
+                        if i == 3:
+                            self.blocks[i][j].change_to_clear_block()
+                            self.mario.score += 100
+                            self.mario.coins += 1
+                        elif i == 4:
+                            self.blocks[i][j].broken = True
+                        elif i == 5:
+                            self.blocks[i][j].change_to_clear_block()
+                            self.mario.score += 100
+                            self.mario.big_mario()
 
         # Gravity
         if self.mario.y <= 240 and \

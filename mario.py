@@ -93,6 +93,7 @@ class Mario:
 
     # Change the animation when mario eats a mushroom
     def big_mario(self):
+        self.state = 2
         self.animation_x = 0
         self.animation_y = 72
 

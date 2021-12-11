@@ -4,7 +4,7 @@ from board import Board
 # Basic information
 width = 256
 height = 256
-floor_length = 2048
+floor_length = 2176
 
 # Creates the screen
 pyxel.init(width, height, caption="MarioBros")
