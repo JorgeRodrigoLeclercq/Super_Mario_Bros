@@ -84,8 +84,12 @@ class Mario:
     # Change the animation at the middle of the screen
     def middle_screen_animation(self):
         self.sprite_direction = 16
-        self.animation_x = 0
-        self.animation_y = 48
+        if self.state == 1:
+            self.animation_x = 0
+            self.animation_y = 48
+        elif self.state == 2:
+            self.animation_x = 0
+            self.animation_y = 72
 
     # Change the animation when mario eats a mushroom
     def big_mario(self):
