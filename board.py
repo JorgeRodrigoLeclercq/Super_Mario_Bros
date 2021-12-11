@@ -1,17 +1,19 @@
-import pyxel, random
+import pyxel
+import random
 
-from mario import Mario
-from blocks_folder.pipes import Pipes
-from blocks_folder.coin_brick import CoinBrick
 from blocks_folder.breakable_brick import BreakableBrick
-from blocks_folder.question_brick import QuestionBlock
-from blocks_folder.floor import Floor
 from blocks_folder.clouds import Clouds
+from blocks_folder.coin_brick import CoinBrick
+from blocks_folder.flag import Flag
+from blocks_folder.floor import Floor
 from blocks_folder.grass import Grass
-from enemies_folder.koopa_troopa import KoopaTroopa
+from blocks_folder.pipes import Pipes
+from blocks_folder.question_brick import QuestionBlock
 from enemies_folder.goomba import Goomba
-from special_objects_folder.mushroom import Mushroom
+from enemies_folder.koopa_troopa import KoopaTroopa
+from mario import Mario
 from special_objects_folder.coin import Coin
+from special_objects_folder.mushroom import Mushroom
 
 
 class Board:
@@ -80,10 +82,12 @@ class Board:
                           QuestionBlock(1152, 176, 0, 16, 0, 16, 16, True),
                           QuestionBlock(1424, 112, 0, 16, 0, 16, 16, True)]
 
+        self.flag = [Flag(2000, 88, 0, 224, 104, 32, 160, False)]
+
         # List with all the blocks
         self.blocks = [self.clouds, self.grass, self.pipes, self.coin_bricks,
                        self.breakable_bricks, self.questions,
-                       self.floor]
+                       self.floor, self.flag]
 
         # List with all the x and y coordinates of the blocks, including the width and height of the block
         self.blocks_x_y = []
@@ -127,7 +131,7 @@ class Board:
     def update(self):
         # Function is called each frame
         # Quit the game if you press Q or if Mario dies
-        if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0:
+        if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x+1 == self.blocks[7][0].x_position:
             pyxel.quit()
 
         # Return the value of hit, to give mario some time for the next attack
