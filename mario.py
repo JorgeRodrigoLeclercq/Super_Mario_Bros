@@ -28,16 +28,50 @@ class Mario:
         self.hit = 0
 
         # Next steps of mario
-        self.next_move_right = [self.x + 16, self.y - 1]
-        self.next_move_left = [self.x - 16, self.y - 1]
-        self.next_move_up = [self.x, self.y - 16]
+        self.next_move_right = [self.x + 17, self.y - 1]
+        self.next_move_left = [self.x, self.y - 1]
+        self.next_move_up = [self.x, self.y - 17]
         self.next_move_down = [self.x, self.y + 2]
 
-        # List of Mario's sprite x and y coordinates
-        '''self.x_and_y_coordinates = []
-        for i in range(self.x, self.x + 16):
-            for j in range(self.y, self.y + 16):
-                self.x_and_y_coordinates.append([i, j])'''
+    # COLLISIONS
+    def collide(self, block_list: list, direction: str, start=0, end=0):
+        for i in range(start, len(block_list) - end):
+            for j in range(len(block_list[i])):
+                if not block_list[i][j].broken:
+                    if direction == "r":
+                        if block_list[i][j].x_position <= self.next_move_right[0] <= (
+                                block_list[i][j].x_position + block_list[i][j].width) \
+                                and  block_list[i][j].y_position >= self.next_move_right[1] >= (
+                                block_list[i][j].y_position + block_list[i][j].height):
+                            return True
+                        else:
+                            return False
+                    elif direction == "l":
+                        if block_list[i][j].x_position <= self.next_move_left[0] <= (
+                                block_list[i][j].x_position + block_list[i][j].width) \
+                                and block_list[i][j].y_position >= self.next_move_left[1] >= (
+                                block_list[i][j].y_position + block_list[i][j].height):
+                            return True
+                        else:
+                            return False
+                    elif direction == "u":
+                        if block_list[i][j].x_position - 64 <= self.x <= (
+                                block_list[i][j].x_position + block_list[i][j].width + 2) \
+                                and block_list[i][j].y_position >= self.y >= (
+                                block_list[i][j].y_position + block_list[i][j].height + 2):
+                            return True
+                        else:
+                            return False
+                    elif direction == "d":
+                        if block_list[i][j].x_position - 64 <= self.x <= (
+                                block_list[i][j].x_position + block_list[i][j].width + 2) \
+                                and block_list[i][j].y_position >= self.y >= (
+                                block_list[i][j].y_position + block_list[i][j].height):
+                            return True
+                        else:
+                            return False
+                else:
+                    return False
 
     # Moves Mario to the right
     def move_right(self):
@@ -51,7 +85,7 @@ class Mario:
 
     # Makes Mario jumps
     def jump(self):
-        if self.state==1:
+        if self.state == 1:
             self.animation_x = 32
             self.animation_y = 120
         self.y -= 2

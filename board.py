@@ -130,7 +130,7 @@ class Board:
     def update(self):
         # Function is called each frame
         # Quit the game if you press Q or if Mario dies
-        if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x+1 == self.blocks[7][0].x_position:
+        if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x+1 == self.blocks[7][0].x_position or self.game_time == 0:
             pyxel.quit()
 
         # Return the value of hit, to give mario some time for the next attack
@@ -152,6 +152,7 @@ class Board:
                 if self.enemies[i][j].direction:
                     if self.enemies[i][j].next_move_right in self.blocks_x_y:
                         self.enemies[i][j].direction_change()
+
                 # If the enemy moves to the left and there is a block, changes the direction to the right
                 else:
                     if self.enemies[i][j].next_move_left in self.blocks_x_y:
@@ -167,14 +168,16 @@ class Board:
 
         # Mario's movement to the right
         if pyxel.btn(pyxel.KEY_RIGHT) and self.mario.x < (
-                (self.width / 2) - 16) and self.mario.next_move_right not in self.blocks_x_y:
+                (self.width / 2) - 16) and not self.mario.collide(self.blocks, "r", 2, 1):
+            # and self.mario.next_move_right not in self.blocks_x_y
             self.mario.move_right()
             # print(self.mario.x_and_y_coordinates)
 
         # Mario would stop running to the right at the middle of the screen
         # Then the blocks would move to the left
         if pyxel.btn(pyxel.KEY_RIGHT) and self.mario.x == (
-                (self.width / 2) - 16) and self.mario.next_move_right not in self.blocks_x_y:
+                (self.width / 2) - 16) and not self.mario.collide(self.blocks, "r", 2, 1):
+                #and self.mario.next_move_right not in self.blocks_x_y:
             # Movement of all the blocks to the left
             for i in range(len(self.blocks)):
                 for j in range(len(self.blocks[i])):
@@ -186,22 +189,26 @@ class Board:
                 for j in range(len(self.special_objects[i])):
                     self.special_objects[i][j].x_position -= 1
 
-                    # Updates the list of x and y coordinates of the blocks
+            # Updates the list of x and y coordinates of the blocks
             self.blocks_x_y = []
             for i in range(2, len(self.blocks)):
                 for j in range(len(self.blocks[i])):
-                    for k in range(self.blocks[i][j].x_position,
-                                   self.blocks[i][j].x_position + self.blocks[i][j].width + 1, 1):
-                        for w in range(self.blocks[i][j].y_position,
-                                       self.blocks[i][j].y_position + self.blocks[i][j].height + 1, 1):
-                            self.blocks_x_y.append([k, w])
+                    if not self.blocks[i][j].broken:
+                        for k in range(self.blocks[i][j].x_position,
+                                       self.blocks[i][j].x_position + self.blocks[i][j].width + 1, 1):
+                            for w in range(self.blocks[i][j].y_position,
+                                           self.blocks[i][j].y_position + self.blocks[i][j].height + 1, 1):
+                                self.blocks_x_y.append([k, w])
 
         # Mario's movement to the left
-        if pyxel.btn(pyxel.KEY_LEFT) and self.mario.x - 1 > 0 and self.mario.next_move_left not in self.blocks_x_y:
+        if pyxel.btn(pyxel.KEY_LEFT) and self.mario.x - 1 > 0 and not self.mario.collide(self.blocks,"l", 2, 1):
+
+            #and self.mario.next_move_left not in self.blocks_x_y:
             self.mario.move_left()
 
         # Mario´s jump
-        if pyxel.btn(pyxel.KEY_UP) and self.mario.next_move_up not in self.blocks_x_y and self.mario.jump_height <= 70:
+        if pyxel.btn(pyxel.KEY_UP)  and self.mario.jump_height <= 70 and not self.mario.collide(self.blocks, "u", 2, 1):
+            #and self.mario.next_move_up not in self.blocks_x_y
             self.mario.jump()
             # Breaks the blocks that has some function
             for i in range(3,len(self.blocks)-2):
