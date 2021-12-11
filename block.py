@@ -12,7 +12,7 @@ class Block:
         self.y_position = y_position
 
         # Image bank
-        self.image_bank = image_bank
+        self.__image_bank = image_bank
 
         # Image coordinates
         self.image_x = image_x
@@ -32,7 +32,7 @@ class Block:
             self.x_position, self.y_position,
 
             # Image bank
-            self.image_bank,
+            self.__image_bank,
 
             # Starting point in the image bank
             self.image_x, self.image_y,
