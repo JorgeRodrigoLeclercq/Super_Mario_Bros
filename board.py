@@ -185,7 +185,13 @@ class Board:
                 for j in range(len(self.blocks[i])):
                     self.blocks[i][j].x_position -= 1
                     self.mario.middle_screen_animation()  # Changes the animation of mario
-            # Updates the list of x and y coordinates of the blocks
+
+            # Movement of all the blocks to the left
+            for i in range(len(self.special_objects)):
+                for j in range(len(self.special_objects[i])):
+                    self.special_objects[i][j].x_position -= 1
+
+                    # Updates the list of x and y coordinates of the blocks
             self.blocks_x_y = []
             for i in range(2, len(self.blocks)):
                 for j in range(len(self.blocks[i])):
