@@ -39,33 +39,33 @@ class Mario:
             for j in range(len(block_list[i])):
                 if not block_list[i][j].broken:
                     if direction == "r":
-                        if block_list[i][j].x_position <= self.next_move_right[0] <= (
+                        if block_list[i][j].x_position <= self.x + 19 <= (
                                 block_list[i][j].x_position + block_list[i][j].width) \
-                                and  block_list[i][j].y_position >= self.next_move_right[1] >= (
+                                and  block_list[i][j].y_position >= self.y + 2>= (
                                 block_list[i][j].y_position + block_list[i][j].height):
                             return True
                         else:
                             return False
                     elif direction == "l":
-                        if block_list[i][j].x_position <= self.next_move_left[0] <= (
+                        if block_list[i][j].x_position <= self.x - 3 <= (
                                 block_list[i][j].x_position + block_list[i][j].width) \
-                                and block_list[i][j].y_position >= self.next_move_left[1] >= (
+                                and block_list[i][j].y_position >= self.y + 2>= (
                                 block_list[i][j].y_position + block_list[i][j].height):
                             return True
                         else:
                             return False
                     elif direction == "u":
-                        if block_list[i][j].x_position - 64 <= self.x <= (
-                                block_list[i][j].x_position + block_list[i][j].width + 2) \
-                                and block_list[i][j].y_position >= self.y >= (
+                        if block_list[i][j].x_position <= self.x + 8 <= (
+                                block_list[i][j].x_position + block_list[i][j].width) \
+                                and block_list[i][j].y_position >= self.y - 3 >= (
                                 block_list[i][j].y_position + block_list[i][j].height + 2):
                             return True
                         else:
                             return False
                     elif direction == "d":
-                        if block_list[i][j].x_position - 64 <= self.x <= (
+                        if block_list[i][j].x_position <= self.x + 8 <= (
                                 block_list[i][j].x_position + block_list[i][j].width + 2) \
-                                and block_list[i][j].y_position >= self.y >= (
+                                and block_list[i][j].y_position >= self.y + 3 >= (
                                 block_list[i][j].y_position + block_list[i][j].height):
                             return True
                         else:
@@ -75,27 +75,36 @@ class Mario:
 
     # Moves Mario to the right
     def move_right(self):
+        # Increase the value of the x
         self.x += 1
+        # States the direction of the sprite to the right
         self.sprite_direction = 16
 
     # Moves Mario to the left
     def move_left(self):
+        # Decrease the value of the x
         self.x -= 1
+        # States the direction of the sprite to the left
         self.sprite_direction = -16
 
     # Makes Mario jumps
     def jump(self):
+        # States the animation of the jump according to small mario
         if self.state == 1:
             self.animation_x = 32
             self.animation_y = 120
+        # Decrease the value of y
         self.y -= 2
+        # Increase the height of the jump
         self.jump_height += 2
 
     # Makes Mario go down after jumping
     def un_jump(self):
+        # States the animation of the jump according to small mario
         if self.state == 1:
             self.animation_x = 32
             self.animation_y = 120
+        # Increase the value of y
         self.y += 2
 
     # Updates the following moves of Mario
@@ -114,25 +123,32 @@ class Mario:
         self.score += value
 
     # SPRITES OF MARIO
-
     # Change the animation at the middle of the screen
     def middle_screen_animation(self):
+        # States the direction of the sprite to de right
         self.sprite_direction = 16
+        # States the animation according to small mario
         if self.state == 1:
             self.animation_x = 0
             self.animation_y = 48
+        # States the animation according to big mario
         elif self.state == 2:
             self.animation_x = 0
             self.animation_y = 72
 
     # Change the animation when mario eats a mushroom
     def big_mario(self):
+        # Changes the state to 2, as it is big mario
         self.state = 2
+        # States the animation according to big mario
         self.animation_x = 0
         self.animation_y = 72
 
     # Change the animation when mario gets small
     def small_mario(self):
+        # Changes the state to 1, as it is small mario
+        self.state = 1
+        # States the animation according to small mario
         self.animation_x = 0
         self.animation_y = 48
 

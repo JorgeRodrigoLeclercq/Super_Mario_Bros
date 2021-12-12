@@ -58,6 +58,7 @@ class Enemies:
     # Changes the direction of the enemy's movement
     def direction_change(self):
         # True = right and False = left
+        # If the enemy has direction: right (True), it will change it to the opposite
         if self.direction:
             self.direction = False
         else:
@@ -66,6 +67,8 @@ class Enemies:
     # Moves the enemy according to the direction
     def move(self):
         if self.direction:
+            # If the direction is True = Right, x will be increased
             self.x_position += 2
         else:
+            # If the direction is False = Left, x will be decreased
             self.x_position -= 2

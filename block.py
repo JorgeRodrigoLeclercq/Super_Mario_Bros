@@ -46,6 +46,8 @@ class Block:
                 colkey=12
             )
 
+    # When a block is hit, this will change the sprite to a clear block
     def change_to_clear_block(self):
+        # Changes the positions x and y of the image
         self.image_x = 16
         self.image_y = 16

@@ -35,9 +35,11 @@ class Board:
 #######################################################################################################################
         # BLOCKS
         # Floor
+        #########
         self.floor = [Floor(i, 240, 0, 32, 104, 16, 16, False, True) for i in range(0, self.floor_length, 16)]
 
         # Clouds and grass
+        ###################
         self.clouds, self.grass = [], []
 
         # Auxiliary that makes that in each screen appears a cloud and a grass
@@ -51,6 +53,7 @@ class Board:
             aux += 256
 
         # Pipes
+        ########
         self.pipes = [Pipes(288, 208, 0, 32, 0, 32, 32, False, True),
                       Pipes(528, 208, 0, 32, 0, 32, 32, False, True),
                       Pipes(848, 208, 0, 32, 0, 32, 32, False, True),
@@ -59,6 +62,7 @@ class Board:
                       ]
 
         # Bricks with coins
+        ####################
         self.coin_bricks = [CoinBrick(64, 176, 0, 0, 16, 16, 16, False, False),
                             CoinBrick(96, 176, 0, 0, 16, 16, 16, False, False),
                             CoinBrick(608, 176, 0, 0, 16, 16, 16, False, False),
@@ -69,6 +73,7 @@ class Board:
                             ]
 
         # Breakable bricks
+        ###################
         self.breakable_bricks = [BreakableBrick(576, 176, 0, 0, 16, 16, 16, False, False),
                                  BreakableBrick(1408, 160, 0, 0, 16, 16, 16, False, False),
                                  BreakableBrick(1728, 112, 0, 0, 16, 16, 16, False, False),
@@ -76,17 +81,21 @@ class Board:
                                  BreakableBrick(288, 141, 0, 0, 16, 16, 16, False, False)
                                  ]
 
-        # Questions blocks_folder
+        # Questions blocks
+        ###################
         self.questions = [QuestionBlock(80, 176, 0, 16, 0, 16, 16, False, False),
                           QuestionBlock(1152, 176, 0, 16, 0, 16, 16, False, False),
                           QuestionBlock(1424, 112, 0, 16, 0, 16, 16, False, False)]
 
+        # Flag
+        #######
         self.flag = [Flag(2000, 88, 0, 224, 104, 32, 160, False, True)]
 
         # List with all the blocks
         self.blocks = [self.clouds, self.grass, self.pipes, self.coin_bricks,
                        self.breakable_bricks, self.questions,
                        self.floor, self.flag]
+
 
         # List with all the x and y coordinates of the blocks, including the width and height of the block
         self.blocks_x_y = []
@@ -102,9 +111,11 @@ class Board:
 #######################################################################################################################
         # ENEMIES
         # Koopa Troopa
+        ###############
         self.koopa_troopa = [KoopaTroopa(736, 216, 0, 48, 32, 16, 24, True, False),
                              KoopaTroopa(1790, 216, 0, 48, 32, 16, 24, True, False)]
         # Goomba
+        ##########
         self.goomba = [Goomba(i * 256, 224, 0, 32, 48, 16, 16, True, False) for i in range(6) if i != 0 or i != 3 or i != 8]
 
         # List with all the enemies
@@ -112,10 +123,13 @@ class Board:
 
 #######################################################################################################################
         # SPECIAL OBJECTS
+        # Mushrooms
+        ############
         self.mushroom = [Mushroom(80, 157, 0, 0, 32, 16, 16, False),
                          Mushroom(1152, 157, 0, 0, 32, 16, 16, False),
                          Mushroom(1424, 93, 0, 0, 32, 16, 16, False)]
-
+        # Coins
+        ########
         self.coin = [Coin(64, 160, 0, 48, 120, 16, 16, False),
                      Coin(96, 160, 0, 48, 120, 16, 16, False),
                      Coin(608, 160, 0, 48, 120, 16, 16, False),
@@ -134,8 +148,8 @@ class Board:
             pyxel.quit()
 
         # Return the value of hit, to give mario some time for the next attack
-        if self.mario.hit<=150 and self.mario.hit>0:
-            self.mario.hit-=1
+        if self.mario.hit <= 150 and self.mario.hit > 0:
+            self.mario.hit -= 1
 
         # States the sprite of mario
         self.mario.choose_sprite()
@@ -210,9 +224,12 @@ class Board:
         if pyxel.btn(pyxel.KEY_UP)  and self.mario.jump_height <= 70 and not self.mario.collide(self.blocks, "u", 2, 1):
             #and self.mario.next_move_up not in self.blocks_x_y
             self.mario.jump()
+
             # Breaks the blocks that has some function
+            # For through the blocks from [3 to -2] position
             for i in range(3,len(self.blocks)-2):
                 for j in range(len(self.blocks[i])):
+                    # If we haven't hit yet the block and mario's coordinates are between width and height of the block
                     if not self.blocks[i][j].used and self.blocks[i][j].x_position <= self.mario.next_move_up[0] <= (self.blocks[i][j].x_position + self.blocks[i][j].width) \
                             and self.blocks[i][j].y_position <= self.mario.next_move_up[1] <= (self.blocks[i][j].y_position + self.blocks[i][j].height+2):
 
@@ -225,16 +242,23 @@ class Board:
                             for w in range(len(self.special_objects[k])):
                                 if self.special_objects[k][w].x_position == self.blocks[i][j].x_position:
                                     self.special_objects[k][w].can_use = True
+                                    # After some time, it dissapears
                                     if time.time() - initial_time >= 3:
-                                        self.special_objects[i][j].can_use = False
-
+                                        self.special_objects[i][j].can_use = False # Now we wouldn't be able to use it
+                        # Different functions of the blocks
+                        # COIN BRICKS
                         if i == 3:
+                            # Change the sprite, add some score and add a coin
                             self.blocks[i][j].change_to_clear_block()
                             self.mario.score += 50
                             self.mario.coins += 1
+                        # BREAKABLE BRICKS
                         elif i == 4:
+                            # Change the attribute of the block, now it is broken
                             self.blocks[i][j].broken = True
+                        # QUESTION BLOCKS
                         elif i == 5:
+                            # Change the sprite, add some score and changes the state of mario
                             self.blocks[i][j].change_to_clear_block()
                             self.mario.score += 100
                             self.mario.big_mario()
@@ -255,21 +279,23 @@ class Board:
         ##################### MARIO VS ENEMIES ########################
         ###############################################################
 
-        # This loop goes through all the enemies_folder
+        # This loop goes through all the enemies
         for i in range(len(self.enemies)):
             for j in range(len(self.enemies[i])):
                 aux = []
+                # If the enemy isn't dead it appends all the positions between x to x+width and between y to y+height to a list
                 if not self.enemies[i][j].dead:
                     for k in range(self.enemies[i][j].x_position, self.enemies[i][j].x_position + self.enemies[i][j].width + 1, 1):
                         for w in range(self.enemies[i][j].y_position, self.enemies[i][j].y_position + self.enemies[i][j].height + 1, 1):
                             aux.append([k, w])
 
+                # If the next down move of mario is in the list, the enemy dies and the score increases
                 if self.mario.next_move_down in aux:
                     self.enemies[i][j].dead = True
                     self.mario.increase_score(150)
-
+                # Else if mario is hit by the right or the left, he will reduce it state once
                 elif ([self.mario.x + 1, self.mario.y] in aux or [self.mario.x - 1, self.mario.y] in aux) and self.mario.hit == 0:
-                    self.mario.hit = 150
+                    self.mario.hit = 150 # It is a variable that decrease slowly and until it isn't 0 again, any enemy can damage Mario again
                     if self.mario.state == 2:
                         self.mario.state = 1
                     elif self.mario.state == 1:

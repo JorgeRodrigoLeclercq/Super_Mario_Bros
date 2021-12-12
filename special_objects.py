@@ -19,7 +19,7 @@ class SpecialObjects:
         self.width = width
         self.height = height
 
-        # Can take it
+        # Can take it or not
         self.can_use = c
 
     # Draws the blocks_folder
