@@ -20,6 +20,9 @@ from special_objects_folder.mushroom import Mushroom
 class Board:
     # This class contains the attributes and the functions for the floor
 
+    ###############################################################
+    ##################### CONSTRUCTOR #############################
+    ###############################################################
     def __init__(self, width: int, height: int, floor_length: int):
         # Screen size
         self.width = width
@@ -127,16 +130,18 @@ class Board:
         # List with all the special objects
         self.special_objects = [self.mushroom, self.coin]
 
-    # UPDATE
+    ###############################################################
+    ##################### UPDATE ##################################
+    ###############################################################
     # Function is called each frame
     def update(self):
-        # Quit the game if you press Q or if Mario dies
-        if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x + 1 == self.blocks[7][
-            0].x_position or self.game_time == 0:
+        # Quit the game
+        if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x + 1 == self.blocks[7][0].x_position \
+                or self.game_time == 0:
             pyxel.quit()
 
-        # Return the value of.hit_restart, to give mario some time for the next attack
-        if self.mario.hit_restart <= 150 and self.mario.hit_restart > 0:
+        # Decreases the value of mario.hit_restart in order for Mario to be vulnerable again
+        if 150 >= self.mario.hit_restart > 0:
             self.mario.hit_restart -= 1
 
         # States the sprite of mario
@@ -145,9 +150,7 @@ class Board:
         # Decreases time
         self.game_time -= .07
 
-        ###############################################################
-        ##################### ENEMIES´S MOVEMENT ######################
-        ###############################################################
+        # ENEMIE'S MOVEMENT
         for i in range(len(self.enemies)):
             for j in range(len(self.enemies[i])):
                 # If the enemy moves to the right and there is a block, changes the direction to the left
@@ -162,9 +165,7 @@ class Board:
                 self.enemies[i][j].update_next_move()  # Updates the following movements
                 self.enemies[i][j].move()  # Moves the enemy on the correct direction
 
-        ###############################################################
-        ##################### MARIO´S MOVEMENT ########################
-        ###############################################################
+        # MARIO'S MOVEMENT
         # Updates the next position of mario
         self.mario.update_next_move()
 
@@ -264,10 +265,7 @@ class Board:
         if pyxel.btn(pyxel.KEY_UP) == False or self.mario.next_move_up in self.blocks_x_y:
             self.mario.jump_height = 71
 
-        ###############################################################
-        ##################### MARIO VS ENEMIES ########################
-        ###############################################################
-
+        # MARIO VS ENEMIES
         # This loop goes through all the enemies
         for i in range(len(self.enemies)):
             for j in range(len(self.enemies[i])):
@@ -307,7 +305,9 @@ class Board:
                         for j in range(len(self.blocks[i])):
                             if self.mario.x + 16 == self.blocks[i][j].x_position + self.blocks[i][j].width'''
 
-    # DRAW
+    ###############################################################
+    ##################### DRAW ####################################
+    ###############################################################
     # Draws everything in the game
     def draw(self):
         # Fill the background
@@ -323,23 +323,23 @@ class Board:
         pyxel.text(236, 6, "TIME", 7)
         pyxel.text(236, 15, str(int(self.game_time)), 7)
 
-        # Draw blocks
+        # Draws blocks
         for i in range(len(self.blocks)):
             for j in range(len(self.blocks[i])):
                 self.blocks[i][j].draw_block()
 
-        # Draw enemies
+        # Draws enemies
         for i in range(len(self.enemies)):
             for j in range(len(self.enemies[i])):
                 if not self.enemies[i][j].dead:
                     self.enemies[i][j].draw_enemy()
 
-        # Draw Objects
+        # Draws special objects
         for i in range(len(self.special_objects)):
             for j in range(len(self.special_objects[i])):
                 self.special_objects[i][j].draw_special_object()
 
-        # Draw Mario
+        # Draws Mario
         if self.mario.state == 1 or self.mario.state == 0:
             pyxel.blt(self.mario.x, self.mario.y - 17, 0, self.mario.animation_x, self.mario.animation_y,
                       self.mario.sprite_direction, 16, colkey=12)

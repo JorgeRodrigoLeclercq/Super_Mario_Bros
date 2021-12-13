@@ -4,6 +4,7 @@ import pyxel
 class Mario:
     # This class contains all the attributes and functions for Mario
 
+    # CONSTRUCTOR
     def __init__(self, x, y):
         # Mario position
         self.x = x
