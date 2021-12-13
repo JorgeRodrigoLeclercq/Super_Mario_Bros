@@ -30,9 +30,10 @@ class Mario:
 
         # Next steps of mario
         self.next_move_right = [self.x + 16, self.y - 1]
-        self.next_move_left = [self.x, self.y - 1]
-        self.next_move_up = [self.x, self.y - 16]
-        self.next_move_down = [self.x, self.y + 1]
+        self.next_move_left = [self.x - 1, self.y - 1]
+        self.next_move_up = [self.x + 16, self.y - 16]
+        self.next_move_down = [self.x + 16, self.y]
+        self.mario_coordinates = [self.x, self.y]
 
     # COLLISIONS
     def collide(self, block_list: list, direction: str, start=0, end=0):

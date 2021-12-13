@@ -53,12 +53,12 @@ class Enemies:
     # Updates the following movements
     def update_next_move(self):
         self.next_move_right = [self.x_position + 16, self.y_position]
-        self.next_move_left = [self.x_position - 16, self.y_position]
+        self.next_move_left = [self.x_position - 1, self.y_position]
 
     # Changes the direction of the enemy's movement
     def direction_change(self):
         # True = right and False = left
-        # If the enemy has direction: right (True), it will change it to the opposite
+        # If the enemy has direction: right (True), it will change it to the opposite direction
         if self.direction:
             self.direction = False
         else:

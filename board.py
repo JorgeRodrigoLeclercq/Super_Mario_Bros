@@ -171,16 +171,14 @@ class Board:
 
         # Mario's movement to the right
         if pyxel.btn(pyxel.KEY_RIGHT) and self.mario.x < (
-                (self.width / 2) - 16) and not self.mario.collide(self.blocks, "r", 2, 1):
-            # and self.mario.next_move_right not in self.blocks_x_y
+                (self.width / 2) - 16) and self.mario.next_move_right not in self.blocks_x_y:  #not self.mario.collide(self.blocks, "r", 2, 1):
             self.mario.move_right()
             # print(self.mario.x_and_y_coordinates)
 
         # Mario would stop running to the right at the middle of the screen
         # Then the blocks would move to the left
         if pyxel.btn(pyxel.KEY_RIGHT) and self.mario.x == (
-                (self.width / 2) - 16) and not self.mario.collide(self.blocks, "r", 2, 1):
-            # and self.mario.next_move_right not in self.blocks_x_y:
+                (self.width / 2) - 16) and self.mario.next_move_right not in self.blocks_x_y:  #and not self.mario.collide(self.blocks, "r", 2, 1):
             # Movement of all the blocks to the left
             for i in range(len(self.blocks)):
                 for j in range(len(self.blocks[i])):
@@ -204,12 +202,11 @@ class Board:
                                 self.blocks_x_y.append([k, w])
 
         # Mario's movement to the left
-        if pyxel.btn(pyxel.KEY_LEFT) and self.mario.x - 1 > 0 and not self.mario.collide(self.blocks, "l", 2, 1):
-            # and self.mario.next_move_left not in self.blocks_x_y:
+        if pyxel.btn(pyxel.KEY_LEFT) and self.mario.x - 1 > 0 and self.mario.next_move_left not in self.blocks_x_y: #and not self.mario.collide(self.blocks, "l", 2, 1):
             self.mario.move_left()
 
         # Mario´s jump
-        if pyxel.btn(pyxel.KEY_UP) and self.mario.jump_height <= 70 and not self.mario.collide(self.blocks, "u", 2, 1):
+        if pyxel.btn(pyxel.KEY_UP) and self.mario.jump_height <= 70 and self.mario.next_move_up not in self.blocks_x_y: #and not self.mario.collide(self.blocks, "u", 2, 1):
             # and self.mario.next_move_up not in self.blocks_x_y
             self.mario.jump()
 
@@ -305,6 +302,10 @@ class Board:
                         for j in range(len(self.blocks[i])):
                             if self.mario.x + 16 == self.blocks[i][j].x_position + self.blocks[i][j].width'''
 
+        if pyxel.btn(pyxel.KEY_I):
+            print(self.blocks_x_y)
+            print(self.mario.x)
+            print(self.mario.y)
     ###############################################################
     ##################### DRAW ####################################
     ###############################################################
@@ -340,10 +341,10 @@ class Board:
                 self.special_objects[i][j].draw_special_object()
 
         # Draws Mario
-        if self.mario.state == 1 or self.mario.state == 0:
+        if self.mario.state == 1:
             pyxel.blt(self.mario.x, self.mario.y - 17, 0, self.mario.animation_x, self.mario.animation_y,
                       self.mario.sprite_direction, 16, colkey=12)
-        if self.mario.state == 2:
+        elif self.mario.state == 2:
             pyxel.blt(self.mario.x, self.mario.y - 32, 0, self.mario.animation_x, self.mario.animation_y,
                       self.mario.sprite_direction, 32, colkey=12)
 
