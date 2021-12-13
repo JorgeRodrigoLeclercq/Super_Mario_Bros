@@ -1,4 +1,6 @@
-import pyxel, random, time
+import pyxel
+import random
+import time
 
 from blocks_folder.breakable_brick import BreakableBrick
 from blocks_folder.clouds import Clouds
@@ -147,9 +149,9 @@ class Board:
         if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x+1 == self.blocks[7][0].x_position or self.game_time == 0:
             pyxel.quit()
 
-        # Return the value of hit, to give mario some time for the next attack
-        if self.mario.hit <= 150 and self.mario.hit > 0:
-            self.mario.hit -= 1
+        # Return the value of.hit_restart, to give mario some time for the next attack
+        if self.mario.hit_restart <= 150 and self.mario.hit_restart > 0:
+            self.mario.hit_restart -= 1
 
         # States the sprite of mario
         self.mario.choose_sprite()
@@ -229,7 +231,7 @@ class Board:
             # For through the blocks from [3 to -2] position
             for i in range(3,len(self.blocks)-2):
                 for j in range(len(self.blocks[i])):
-                    # If we haven't hit yet the block and mario's coordinates are between width and height of the block
+                    # If we haven't.hit_restart yet the block and mario's coordinates are between width and height of the block
                     if not self.blocks[i][j].used and self.blocks[i][j].x_position <= self.mario.next_move_up[0] <= (self.blocks[i][j].x_position + self.blocks[i][j].width) \
                             and self.blocks[i][j].y_position <= self.mario.next_move_up[1] <= (self.blocks[i][j].y_position + self.blocks[i][j].height+2):
 
@@ -241,10 +243,10 @@ class Board:
                         for k in range(len(self.special_objects)):
                             for w in range(len(self.special_objects[k])):
                                 if self.special_objects[k][w].x_position == self.blocks[i][j].x_position:
-                                    self.special_objects[k][w].can_use = True
+                                    self.special_objects[k][w].usable = True
                                     # After some time, it dissapears
                                     if time.time() - initial_time >= 3:
-                                        self.special_objects[i][j].can_use = False # Now we wouldn't be able to use it
+                                        self.special_objects[i][j].usable = False # Now we wouldn't be able to use it
                         # Different functions of the blocks
                         # COIN BRICKS
                         if i == 3:
@@ -293,9 +295,9 @@ class Board:
                 if self.mario.next_move_down in aux:
                     self.enemies[i][j].dead = True
                     self.mario.increase_score(150)
-                # Else if mario is hit by the right or the left, he will reduce it state once
-                elif ([self.mario.x + 1, self.mario.y] in aux or [self.mario.x - 1, self.mario.y] in aux) and self.mario.hit == 0:
-                    self.mario.hit = 150 # It is a variable that decrease slowly and until it isn't 0 again, any enemy can damage Mario again
+                # Else if mario is.hit_restart by the right or the left, he will reduce it state once
+                elif ([self.mario.x + 1, self.mario.y] in aux or [self.mario.x - 1, self.mario.y] in aux) and self.mario.hit_restart == 0:
+                    self.mario.hit_restart = 150 # It is a variable that decrease slowly and until it isn't 0 again, any enemy can damage Mario again
                     if self.mario.state == 2:
                         self.mario.state = 1
                     elif self.mario.state == 1:

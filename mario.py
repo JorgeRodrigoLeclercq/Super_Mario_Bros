@@ -24,14 +24,14 @@ class Mario:
         # State (0 = Dead, 1 = Small, 2 = Big)
         self.state = 1
 
-        # Mario has been hit by an enemy
-        self.hit = 0
+        # To stop Mario from receiving damage seconds after being hit
+        self.hit_restart = 0
 
         # Next steps of mario
-        self.next_move_right = [self.x + 17, self.y - 1]
+        self.next_move_right = [self.x + 16, self.y - 1]
         self.next_move_left = [self.x, self.y - 1]
-        self.next_move_up = [self.x, self.y - 17]
-        self.next_move_down = [self.x, self.y + 2]
+        self.next_move_up = [self.x, self.y - 16]
+        self.next_move_down = [self.x, self.y + 1]
 
     # COLLISIONS
     def collide(self, block_list: list, direction: str, start=0, end=0):
@@ -41,7 +41,7 @@ class Mario:
                     if direction == "r":
                         if block_list[i][j].x_position <= self.x + 19 <= (
                                 block_list[i][j].x_position + block_list[i][j].width) \
-                                and  block_list[i][j].y_position >= self.y + 2>= (
+                                and block_list[i][j].y_position >= self.y + 2 >= (
                                 block_list[i][j].y_position + block_list[i][j].height):
                             return True
                         else:
@@ -49,7 +49,7 @@ class Mario:
                     elif direction == "l":
                         if block_list[i][j].x_position <= self.x - 3 <= (
                                 block_list[i][j].x_position + block_list[i][j].width) \
-                                and block_list[i][j].y_position >= self.y + 2>= (
+                                and block_list[i][j].y_position >= self.y + 2 >= (
                                 block_list[i][j].y_position + block_list[i][j].height):
                             return True
                         else:
@@ -73,6 +73,7 @@ class Mario:
                 else:
                     return False
 
+    # MOVEMENT
     # Moves Mario to the right
     def move_right(self):
         # Increase the value of the x
@@ -87,15 +88,15 @@ class Mario:
         # States the direction of the sprite to the left
         self.sprite_direction = -16
 
-    # Makes Mario jumps
+    # Makes Mario jump
     def jump(self):
         # States the animation of the jump according to small mario
         if self.state == 1:
             self.animation_x = 32
             self.animation_y = 120
-        # Decrease the value of y
+        # Decreases the value of y
         self.y -= 2
-        # Increase the height of the jump
+        # Increases the counter of the height of the jump
         self.jump_height += 2
 
     # Makes Mario go down after jumping
@@ -114,6 +115,7 @@ class Mario:
         self.next_move_up = [self.x, self.y - 16]
         self.next_move_down = [self.x, self.y + 1]
 
+    # PUNCTUATION
     # Increases the amount of coins
     def increase_coins(self):
         self.coins += 1
@@ -122,8 +124,8 @@ class Mario:
     def increase_score(self, value: int):
         self.score += value
 
-    # SPRITES OF MARIO
-    # Change the animation at the middle of the screen
+    # SPRITES
+    # Changes the animation at the middle of the screen
     def middle_screen_animation(self):
         # States the direction of the sprite to de right
         self.sprite_direction = 16
@@ -136,25 +138,27 @@ class Mario:
             self.animation_x = 0
             self.animation_y = 72
 
-    # Change the animation when mario eats a mushroom
+    # Changes the animation when Mario eats a mushroom
     def big_mario(self):
-        # Changes the state to 2, as it is big mario
+        # Changes the state to 2, as it is big Mario
         self.state = 2
-        # States the animation according to big mario
+        # States the animation according to big Mario
         self.animation_x = 0
         self.animation_y = 72
 
-    # Change the animation when mario gets small
+    # Change the animation when Mario gets small
     def small_mario(self):
-        # Changes the state to 1, as it is small mario
+        # Changes the state to 1, as it is small Mario
         self.state = 1
-        # States the animation according to small mario
+        # States the animation according to small Mario
         self.animation_x = 0
         self.animation_y = 48
 
     # Depending on the state choose one sprite or another
     def choose_sprite(self):
+        # For small Mario
         if self.state == 1:
             self.small_mario()
+        # For big Mario
         elif self.state == 2:
             self.big_mario()

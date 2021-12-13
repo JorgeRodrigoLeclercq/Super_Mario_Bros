@@ -3,7 +3,7 @@ import pyxel, time
 class SpecialObjects:
     # This class contains the attributes and the functions for the special objects
     def __init__(self, x_position: int, y_position: int, image_bank: int, image_x: int, image_y: int,
-                 width: int, height: int, c: bool):
+                 width: int, height: int, usable: bool):
         # Positions
         self.x_position = x_position
         self.y_position = y_position
@@ -20,11 +20,11 @@ class SpecialObjects:
         self.height = height
 
         # Can take it or not
-        self.can_use = c
+        self.usable = usable
 
     # Draws the blocks_folder
     def draw_special_object(self):
-        if self.can_use:
+        if self.usable:
             pyxel.blt(
                 # Position of each block
                 self.x_position, self.y_position,

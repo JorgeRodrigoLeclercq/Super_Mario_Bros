@@ -2,7 +2,7 @@ from block import Block
 
 
 class Flag(Block):
-    # This class contains the attributes and the functions for the clouds
+    # This class contains the attributes and the functions for the flag
 
     def __init__(self, x_position: int, y_position: int, image_bank: int, image_x: int, image_y: int,
                  width: int, height: int, breakable: bool, used: bool):
