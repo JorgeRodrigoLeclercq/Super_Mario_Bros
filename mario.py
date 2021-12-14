@@ -29,51 +29,13 @@ class Mario:
         self.hit_restart = 0
 
         # Next steps of mario
+        if self.state == 1:
+            self.next_move_up = [self.x, self.y - 16]
+        elif self.state == 2:
+            self.next_move_up = [self.x, self.y - 17]
         self.next_move_right = [self.x + 16, self.y - 1]
         self.next_move_left = [self.x - 1, self.y - 1]
-        self.next_move_up = [self.x + 16, self.y - 16]
-        self.next_move_down = [self.x + 16, self.y]
-        self.mario_coordinates = [self.x, self.y]
-
-    # COLLISIONS
-    def collide(self, block_list: list, direction: str, start=0, end=0):
-        for i in range(start, len(block_list) - end):
-            for j in range(len(block_list[i])):
-                if not block_list[i][j].broken:
-                    if direction == "r":
-                        if block_list[i][j].x_position <= self.x + 19 <= (
-                                block_list[i][j].x_position + block_list[i][j].width) \
-                                and block_list[i][j].y_position >= self.y + 2 >= (
-                                block_list[i][j].y_position + block_list[i][j].height):
-                            return True
-                        else:
-                            return False
-                    elif direction == "l":
-                        if block_list[i][j].x_position <= self.x - 3 <= (
-                                block_list[i][j].x_position + block_list[i][j].width) \
-                                and block_list[i][j].y_position >= self.y + 2 >= (
-                                block_list[i][j].y_position + block_list[i][j].height):
-                            return True
-                        else:
-                            return False
-                    elif direction == "u":
-                        if block_list[i][j].x_position <= self.x + 8 <= (
-                                block_list[i][j].x_position + block_list[i][j].width) \
-                                and block_list[i][j].y_position >= self.y - 3 >= (
-                                block_list[i][j].y_position + block_list[i][j].height + 2):
-                            return True
-                        else:
-                            return False
-                    elif direction == "d":
-                        if block_list[i][j].x_position <= self.x + 8 <= (
-                                block_list[i][j].x_position + block_list[i][j].width + 2) \
-                                and block_list[i][j].y_position >= self.y + 3 >= (
-                                block_list[i][j].y_position + block_list[i][j].height):
-                            return True
-                        else:
-                            return False
-                else:
-                    return False
+        self.next_move_down = [self.x, self.y + 16]
 
     # MOVEMENT
     # Moves Mario to the right
@@ -112,10 +74,14 @@ class Mario:
 
     # Updates the following moves of Mario
     def update_next_move(self):
+        if self.state == 1:
+            self.next_move_up = [self.x, self.y - 16]
+        elif self.state == 2:
+            self.next_move_up = [self.x, self.y - 32]
+        self.next_move_down = [self.x, self.y + 1]
         self.next_move_right = [self.x + 16, self.y - 1]
         self.next_move_left = [self.x - 16, self.y - 1]
-        self.next_move_up = [self.x, self.y - 16]
-        self.next_move_down = [self.x, self.y + 1]
+
 
     # PUNCTUATION
     # Increases the amount of coins

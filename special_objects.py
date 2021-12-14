@@ -1,4 +1,5 @@
-import pyxel, time
+import pyxel
+
 
 class SpecialObjects:
     # This class contains the attributes and the functions for the special objects
@@ -41,3 +42,22 @@ class SpecialObjects:
                 # To delete background color
                 colkey=12
             )
+        else:
+            if self.usable:
+                pyxel.blt(
+                    # Position of each block
+                    self.x_position, self.y_position,
+
+                    # Image bank
+                    self.__image_bank,
+
+                    # Starting point
+                    self.image_x, self.image_y,
+
+                    # Size of the image in the bank
+                    self.width, self.height,
+
+                    # To delete background color
+                    colkey=12
+                )
+
