@@ -130,6 +130,8 @@ class Board:
         # List with all the special objects
         self.special_objects = [self.mushroom, self.coin]
 
+        self.initial_time = 0
+
     ###############################################################
     ##################### UPDATE ##################################
     ###############################################################
@@ -139,10 +141,6 @@ class Board:
         if pyxel.btn(pyxel.KEY_Q) or self.mario.state == 0 or self.mario.x + 1 == self.blocks[7][0].x_position \
                 or self.game_time == 0:
             pyxel.quit()
-
-        # Decreases the value of mario.hit_restart in order for Mario to be vulnerable again
-        if 150 >= self.mario.hit_restart > 0:
-            self.mario.hit_restart -= 1
 
         # States the sprite of mario
         self.mario.choose_sprite()
@@ -224,14 +222,15 @@ class Board:
                         self.blocks[i][j].used = True
 
                         # Finds and prints the object inside the block
-                        initial_time = time.time()
+                        self.initial_time = time.time()
                         for k in range(len(self.special_objects)):
                             for w in range(len(self.special_objects[k])):
                                 if self.special_objects[k][w].x_position == self.blocks[i][j].x_position:
                                     self.special_objects[k][w].usable = True
-                                    # After some time, it dissapears
-                                    if time.time() - initial_time >= 3:
+                                    # After some time, it disappears
+                                    if time.time() - self.initial_time >= 3:
                                         self.special_objects[i][j].usable = False  # Now we wouldn't be able to use it
+
                         # Different functions of the blocks
                         # COIN BRICKS
                         if i == 3:
@@ -288,26 +287,13 @@ class Board:
                     elif self.mario.state == 1:
                         self.mario.state = 0
                 aux.clear()
-        '''self.collider = 0'''
-        '''if pyxel.btn(pyxel.KEY_RIGHT):
-            for i in range(len(self.blocks)):
-                for j in range(len(self.blocks[i])):
-                    if self.mario.x + 16 == self.blocks[i][j].x_position
-                    self.collider += 1
-            if self.collider == 0
-                self.mario.move'''
 
-        '''if pyxel.btn(pyxel.KEY_LEFT):
-                    for i in range(len(self.blocks)):
-                        for j in range(len(self.blocks[i])):
-                            if self.mario.x + 16 == self.blocks[i][j].x_position + self.blocks[i][j].width'''
+        # Decreases the value of mario.hit_restart in order for Mario to be vulnerable again
+        if 150 >= self.mario.hit_restart > 0:
+            self.mario.hit_restart -= 1
 
-        if pyxel.btn(pyxel.KEY_I):
-            print(self.blocks_x_y)
-            print(self.mario.x)
-            print(self.mario.y)
     ###############################################################
-    ##################### DRAW ####################################
+    ########################## DRAW ###############################
     ###############################################################
     # Draws everything in the game
     def draw(self):
@@ -347,7 +333,3 @@ class Board:
         elif self.mario.state == 2:
             pyxel.blt(self.mario.x, self.mario.y - 32, 0, self.mario.animation_x, self.mario.animation_y,
                       self.mario.sprite_direction, 32, colkey=12)
-
-        """ Draw Mario
-        pyxel.blt(self.mario.x, self.mario.y - 17, 0, self.mario.animation_x, self.mario.animation_y,
-                  self.mario.sprite_direction, 16, colkey=12)"""
