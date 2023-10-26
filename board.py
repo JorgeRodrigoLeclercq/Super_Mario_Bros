@@ -1,6 +1,5 @@
 import pyxel
 import random
-import time
 
 from mario import Mario
 from blocks_folder.breakable_brick import BreakableBrick
@@ -37,7 +36,7 @@ class Board:
         # Mario object
         self.__mario = Mario(0, self.height - 16)
 
-        #SCREENS
+        # SCREENS
         # To begin the game
         self.__begin_game = False
 
@@ -159,7 +158,7 @@ class Board:
             # Decreases time
             self.__game_time -= .07
 
-            # ENEMIE'S MOVEMENT
+            # ENEMY'S MOVEMENT
             for i in range(len(self.__enemies)):
                 for j in range(len(self.__enemies[i])):
                     # If the enemy moves to the right and there is a block, changes the direction to the left
@@ -217,8 +216,8 @@ class Board:
                 # For through the blocks from [3 to -2] position
                 for i in range(3, len(self.__blocks) - 2):
                     for j in range(len(self.__blocks[i])):
-                        # If we haven't.hit_restart yet the block and mario's coordinates are between width and height of
-                        # the block
+                        # If we haven't.hit_restart yet the block and mario's coordinates are between width and
+                        # height of the block
                         if not self.__blocks[i][j].used and self.__blocks[i][j].x_position <= self.__mario.next_move_up[
                             0] <= (
                                 self.__blocks[i][j].x_position + self.__blocks[i][j].width) \
@@ -365,5 +364,4 @@ class Board:
         # Win screen
         elif self.__you_won_screen:
             pyxel.cls(0)
-            pyxel.text(115, self.height // 2, "YOU WON", pyxel.frame_count%16)
-
+            pyxel.text(115, self.height // 2, "YOU WON", pyxel.frame_count % 16)

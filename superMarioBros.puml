@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/class-diagram
+class Board
+class Mario
+abstract class Block
+class Floor
+class Grass
+class Clouds
+class Pipes
+class Flag
+class BreakableBrick
+class CoinBrick
+class QuestionBrick
+abstract class Enemies
+class Goomba
+class KoopaTroopa
+abstract class SpecialObjects
+class Coin
+class Mushroom
+
+
+Floor
+
+@enduml

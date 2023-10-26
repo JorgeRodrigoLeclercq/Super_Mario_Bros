@@ -82,7 +82,6 @@ class Mario:
         self.next_move_right = [self.x + 16, self.y - 1]
         self.next_move_left = [self.x - 16, self.y - 1]
 
-
     # PUNCTUATION
     # Increases the amount of coins
     def increase_coins(self):
